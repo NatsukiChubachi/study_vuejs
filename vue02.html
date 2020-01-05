@@ -1,0 +1,108 @@
+<!--
+ @file: vue01.html
+ @note: vueパラメータでフォームの値を設定する
+        フォームの値設定にはv-modelを使用する
+        フォームの入力や選択により値が変化した際に
+        そのパラメータを用いている部分は動的に更新することが出来る
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample02</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample02</small><br></h3>
+        Vueパラメータでフォームの値を設定する。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+      
+      <div class="container">
+      
+        <!--
+         テキストフォームにtext_dataの値が設定された状態にする
+         -->
+        <div class="pb-2">
+          <input type="text" class="form-control" placeholder="Typing here..." v-model="text_data">
+        </div>
+        <div class="pb-4" v-text="text_data"></div>
+        
+        <!--
+         ラジオボタンにradio_dataの値が設定された状態にする
+         -->
+        <div class="pb-4">
+          <label class="mr-2"><input type="radio" v-model="radio_data" value="ValueA">選択肢A</label>
+          <label class="mr-2"><input type="radio" v-model="radio_data" value="ValueB">選択肢B</label>
+          <label class="mr-2"><input type="radio" v-model="radio_data" value="ValueC">選択肢C</label>
+
+          <div class="pb-2">
+            <p>Checked item is {{ radio_data }}.</p>
+          </div>
+        </div>
+        
+        <!-- プルダウンリストにselect_dataの値が設定された状態にする -->
+        <div class="pb-2">
+          <label>選択肢を選んでください</label>
+          <div class="pb-2">
+            <select v-model="select_data" class="form-control">
+              <option value="">Select ...</option>
+              <option value="ValueA">選択肢A</option>
+              <option value="ValueB">選択肢B</option>
+              <option value="ValueC">選択肢C</option>
+              <option value="ValueD">選択肢D</option>
+              <option value="ValueE">選択肢E</option>
+            </select>
+          </div>
+          <div class="pb-4">
+            <p>Selected item is {{ select_data }}.</p>
+          </div>
+        </div>
+      
+      </div> 
+            
+    </div>
+    
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        text_data: "xxxxx",
+        radio_data: "ValueB",
+        select_data: "ValueC"
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+

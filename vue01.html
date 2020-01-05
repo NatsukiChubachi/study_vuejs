@@ -1,0 +1,68 @@
+<!--
+ @file: vue01.html
+ @note: vueのパラメータに配列を用いる
+        表示の際にループインデックス値を用いて処理を行うことが出来る
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample01</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample01</small><br></h3>
+        Vueパラメータに配列を用いる。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+      <li v-for="(fruit, index) in fruits" class="list-group-item">
+        {{ index+1 + ' , ' + fruit }}
+      </li>
+    </div>
+    
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        fruits: [
+          "apple",
+          "banana",
+          "cherries",
+          "orange"
+        ]
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+

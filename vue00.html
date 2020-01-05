@@ -1,0 +1,63 @@
+<!--
+ @file: vue00.html
+ @note: vueのパラメータを表示に用いるサンプルファイル
+        html読み込み時にパラメータ値を表示に使用する
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample00</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample00</small><br></h3>
+        Vueパラメータを表示に用いる。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+      <div class="container">My name is {{name}}.<br></div>
+      <div class="container">「{{param}}」<br></div>
+    </div>
+    
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: 'Natsuki Chubachi',
+        param: 'これはVueパラメータから読み込んだ値です。'
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+
