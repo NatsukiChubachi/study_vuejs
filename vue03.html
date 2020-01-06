@@ -1,0 +1,112 @@
+<!--
+ @file: vue03.html
+ @note: vueでイベントを作成する
+        ボタンの押下などで行う処理を記述できる
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample03</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample03</small><br></h3>
+        Vueによるイベントの作成。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+    <div class="container">
+      <!--
+       inputボタンを押下した際にイベントを実行する
+       イベントadd_aryListItem_nameは入力フィールドの内容の項目を配列に追加する
+       -->
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Add Item name" v-model="add_aryListItem">
+        <div class="input-group-append">
+          <button class="btn btn-primary px-5" type="button" v-on:click="_add_aryListItem_name">Add</button>
+        </div>
+      </div>
+      <!--
+       配列要素を表示する
+       上記のイベントで配列要素が変更された場合は同期してここの表示も変化する
+       -->
+      <li v-for="(itemData,index) in aryListItem" class="list-group-item">
+        {{ index+1 + '. ' + itemData }}
+        
+        <button type="button" class="close" v-on:click="_remove_aryListItem_name(index)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+      
+      List: {{ aryListItem }}
+    </div>
+    </div>
+
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      /*
+       * 処理の対象になる配列データ
+       */
+      data: {
+        add_aryListItem: "",
+        aryListItem : [
+          "Item00",
+          "Item01",
+          "Item02",
+          "Item03",
+        ]
+      },
+      methods : {
+        /*
+         * inputボタン押下により呼び出されるイベント
+         * 入力テキスト内容を要素に配列データへ追加する
+         * 追加後に入力フィールドが空になるよう空文字を入れている。
+         */
+        _add_aryListItem_name : function(){
+          this.aryListItem.push( this.add_aryListItem );
+          this.add_aryListItem = "";
+        },
+        /*
+         * 各要素の「×」押下で呼び出されるイベント
+         * その要素を削除する
+         */
+       _remove_aryListItem_name : function( i ) {
+         this.aryListItem.splice( i, 1 );
+       }
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+
