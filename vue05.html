@@ -1,0 +1,95 @@
+<!--
+ @file: vue05.html
+ @note: vueによるコンポーネントを使用した表示
+        コンポーネントを使用して小さい要素を独立させて使用できる
+        
+        参考URL：
+        https://jp.vuejs.org/v2/guide/index.html
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample05</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample05</small><br></h3>
+        vueによるコンポーネント制御<br>
+        vueで作成したコンポーネントを表示に使用する。<br>
+        コンポーネントはパラメータを設定できる。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+      <div class="container">
+        <ol>
+        <proto-item></proto-item>
+        <!--
+         Vueで定義したコンポーネントを使用して表示を行う
+         -->
+        <todo-item v-for="item in itemList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+      </div>
+    </div>
+
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    /*
+     * コンポーネント
+     */
+    Vue.component( 'proto-item', {
+      template: '<li>prototype items</li>'
+    } )
+    /*
+     * コンポーネント
+     */
+    Vue.component( 'todo-item', {
+      props: [ 'todo' ],
+      template: '<li>{{todo.text}}</li>'
+    } )
+    
+    new Vue({
+      el: '#app',
+      data: {
+        itemList: [
+          { id: 0, text: "item00" },
+          { id: 1, text: "item01" },
+          { id: 2, text: "item02" },
+          { id: 3, text: "item03" },
+          { id: 4, text: "item04" },
+          { id: 5, text: "item05" },
+        ]
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+

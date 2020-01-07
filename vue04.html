@@ -1,0 +1,78 @@
+<!--
+ @file: vue04.html
+ @note: vueパラメータ値によるディレクティブ
+        画面を開いた際の日時をマウスホバー時の表示文字列に設定する
+        また、seenの値によって対象の文字列を表示／非表示制御できる
+        
+        参考URL：
+        https://jp.vuejs.org/v2/guide/index.html
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample04</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample04</small><br></h3>
+        vueパラメータ値によるディレクティブ<br>
+        messageに更新日時をセットし、マウスホバー時の表示値にしている<br>
+        seenの値がfalseの時、この文字列を表示しない<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+    <div id="app">
+      <div class="container">
+        {{message}}
+        <br>
+        <!--
+         v-if: 対象パラメータがtrueの時表示、falseの時非表示にできる
+         v-bind: 対象パラメータを値に使用する
+         -->
+        <span v-if="seen" v-bind:title="message">
+          ここにマウスを置くとホバーでメッセージが表示されます。
+        </span>
+      </div>
+    </div>
+
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+    new Vue({
+      el: '#app',
+      data: {
+        message: "Loaded page on " + new Date().toLocaleString(),
+        seen: true
+      }
+    });
+    </script>
+    
+  </body>
+</html>
+
