@@ -1,0 +1,300 @@
+<!--
+ @file: vue06.html
+ @note: vueによるcssとtransitionを用いた表示制御
+        velocity等を用いるとさらに凝ったアニメーションを作ることが出来る。
+        
+        参考URL：
+        https://jp.vuejs.org/v2/guide/transitions.html
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <!--
+   ヘッダー部分
+   タイトルやスタイルの設定
+   スタイルはbootstrapのCDNを使用する
+   -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Vue.js Sample06</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+
+    <!--
+     transition用のスタイル
+     -->
+    <style type="text/css">
+.expand-enter-to {
+  opacity: 1;
+}
+.expand-leave {
+  opacity: 0;
+}
+.expand-leave-active {
+  transition: opacity 1s
+}
+.expand-leave-to {
+  opacity: 0;
+}
+    </style>
+
+    <!--
+     bounce
+     一旦大きくなってから縮小して消える。
+     表示の際にも一瞬大きく出てから本来のサイズへ縮小する。
+     -->
+    <style type="text/css">
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+    </style>
+
+    <!--
+     slide-fade
+     フェードを伴い非表示になる。
+     表示の際にもフェードを伴い表示される。
+     -->
+    <style type="text/css">
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+    </style>
+    
+  </head>
+  
+  <!--
+   ボディ部分
+   メインの処理と表示の部分
+   スクリプトなどは本来別ファイルに分けたほうが好ましいが、
+   サンプルとしてひとまとめにする
+   -->
+  <body>
+  
+    <!-- 見出し部分 -->
+    <div class="jumbotron">
+      <div class="container">
+        <h3>Demo - <small>Vue.js Sample05</small><br></h3>
+        vueによるコンポーネント制御<br>
+        vueで作成したコンポーネントを表示に使用する。<br>
+        コンポーネントはパラメータを設定できる。<br>
+      </div>
+    </div> 
+    
+    <!--
+     表示部分
+     Vueのパラメータを使用して表示を行う
+     -->
+
+    <!--
+     expandをtransitionに用いた表示
+     -->
+    <div id="app1">
+      <div class="container">
+        <button @click="show = !show">ChangeVisible</button>
+        <transition name="expand">
+          <p v-if="show">transitionによる表示制御</p>
+        </transition>
+      </div>
+    </div>
+    
+    <!--
+     bounceをtransitionに用いた表示
+     -->
+    <div id="app2">
+      <div class="container">
+        <button @click="show = !show">ChangeVisible</button>
+        <transition name="bounce">
+          <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+        </transition>
+      </div>
+    </div>
+    
+    <!--
+     slide-fadeをtransitionに用いた表示
+     -->
+    <div id="app3">
+      <div class="container">
+        <button @click="show = !show">ChangeVisible</button>
+        <transition name="slide-fade">
+          <p v-if="show">transitionによる表示制御(フェード)</p>
+        </transition>
+      </div>
+    </div>
+
+    <!--
+     velocityカスタマイズを用いたtransition表示
+     アニメーション処理はVue側に記述されている
+     別途velocityのライブラリが必要
+     -->
+    <div id="app4">
+      <div class="container">
+      <button @click="show = !show">ChangeVisible</button>
+      <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave">
+        <p v-if="show">transitionによる表示制御(velocityカスタマイズ)</p>
+      </transition>
+      </div>
+    </div>
+    
+    <!--
+     スクリプト部分
+     表示に用いるパラメータの設定を行う
+     -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.min.js"></script>
+    <script>
+new Vue({
+  el: '#app1',
+  data: { show: true }
+});
+    </script>
+
+    <script>
+new Vue({
+  el: '#app2',
+  data: { show: true }
+});
+    </script>
+    
+    <script>
+new Vue({
+  el: '#app3',
+  data: { show: true }
+});
+    </script>
+    
+    <!--
+     velocityカスタマイズを用いたtransition表示
+     動作遷移はここに記載したものを用いている
+     処理は複雑になるが、よりグラフィカルな表現が可能になる
+     -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <script>
+new Vue({
+  el: '#app4',
+  data: {
+    show: true
+  },
+  methods: {
+    beforeEnter: function (el) {
+      el.style.opacity = 0
+    },
+    enter: function (el, done) {
+      Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+      Velocity(el, { fontSize: '1em' }, { complete: done })
+    },
+    leave: function (el, done) {
+      Velocity(el, { translateX: '-50px', translateY: '-200px',rotateZ: '-50deg' }, { duration: 600 })
+      Velocity(el, { rotateZ: '-100deg' }, { loop: 1 })
+      Velocity(el, {
+        rotateZ: '-45deg',
+        translateY: '300px',
+        translateX: '300px',
+        opacity: 0
+      }, { complete: done })
+    }
+  }
+})
+    </script>
+    
+    
+<div id="with-mode-demo">
+<div class="container">
+  <transition name="with-mode-fade" mode="out-in">
+    <button v-if="on" key="on" @click="on = false">
+      on
+    </button>
+    <button v-else="" key="off" @click="on = true">
+      off
+    </button>
+  </transition>
+</div>
+</div>
+<script>
+new Vue({
+  el: '#with-mode-demo',
+  data: {
+    on: false
+  }
+})
+</script>
+<style>
+.with-mode-fade-enter-active, .with-mode-fade-leave-active {
+  transition: opacity .5s
+}
+.with-mode-fade-enter, .with-mode-fade-leave-active {
+  opacity: 0
+}
+</style>    
+    
+    
+    
+<div id="in-out-translate-demo">
+<div class="container">
+  <div class="in-out-translate-demo-wrapper">
+    <transition name="in-out-translate-fade" mode="in-out">
+      <button v-if="on" key="on" @click="on = false">
+        on
+      </button>
+      <button v-else="" key="off" @click="on = true">
+        off
+      </button>
+    </transition>
+  </div>
+</div>
+</div>
+<script>
+new Vue({
+  el: '#in-out-translate-demo',
+  data: {
+    on: false
+  }
+})
+</script>
+<style>
+.in-out-translate-demo-wrapper {
+  position: relative;
+  height: 18px;
+}
+.in-out-translate-demo-wrapper button {
+  position: absolute;
+}
+.in-out-translate-fade-enter-active, .in-out-translate-fade-leave-active {
+  transition: all .5s;
+}
+.in-out-translate-fade-enter, .in-out-translate-fade-leave-active {
+  opacity: 0;
+}
+.in-out-translate-fade-enter {
+  transform: translateX(31px);
+}
+.in-out-translate-fade-leave-active {
+  transform: translateX(-31px);
+}
+</style>
+    
+    
+    
+    
+  </body>
+</html>
+
